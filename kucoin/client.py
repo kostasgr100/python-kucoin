@@ -158,7 +158,7 @@ class Client(object):
             kwargs['params'] = kwargs['data']
             del kwargs['data']
 
-        if kwargs['data'] and method == 'delete':
+        elif kwargs['data'] and method == 'delete':
             kwargs['params'] = kwargs['data']
             del kwargs['data']
 
@@ -185,7 +185,15 @@ class Client(object):
 
             if 'success' in res and not res['success']:
                 raise KucoinAPIException(response)
-
+            try:
+                if res['data']['data'][0]['status'] == 'fail' and res['data']['data'][0]['side'] == 'buy':
+                if res['data'][0]['status'] == 'fail' and res['data'][0]['side'] == 'buy':
+                    res = res['data']
+                    print(res)
+                    raise KucoinRequestException('Invalid Response: %s' % res['data'][0]['failMsg'])
+                    raise KucoinRequestException('Invalid Response: %s' % res[0]['failMsg'])
+            except (KeyError, TypeError):
+                pass
             # by default return full response
             # if it's a normal response we have a data attribute, return that
             if 'data' in res:
