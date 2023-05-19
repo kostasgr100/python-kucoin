@@ -948,7 +948,7 @@ class Client(object):
         if trade_type:
             data['tradeType'] = trade_type
 
-        return self._post('orders', True, data=data)
+        return self._post('hf/orders', True, data=data)
 
     def create_limit_order(self, symbol, side, price, size, client_oid=None, remark=None,
                            time_in_force=None, stop=None, stop_price=None, stp=None, trade_type=None,
@@ -1057,7 +1057,7 @@ class Client(object):
             data['iceberg'] = iceberg
             data['visible_size'] = visible_size
 
-        return self._post('orders', True, data=data)
+        return self._post('hf/orders', True, data=data)
 
     def cancel_order(self, order_id):
         """Cancel an order
@@ -1143,7 +1143,7 @@ class Client(object):
         data = {}
         if symbol is not None:
             data['symbol'] = symbol
-        return self._delete('orders', True, data=data)
+        return self._delete('hf/orders', True, data=data)
 
     def get_orders(self, symbol=None, status=None, side=None, order_type=None,
                    start=None, end=None, page=None, limit=None, trade_type='TRADE'):
@@ -1243,7 +1243,7 @@ class Client(object):
         if trade_type:
             data['tradeType'] = trade_type
 
-        return self._get('orders', True, data=data)
+        return self._get('hf/orders', True, data=data)
 
     def get_historical_orders(self, symbol=None, side=None,
                               start=None, end=None, page=None, limit=None):
