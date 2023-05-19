@@ -186,11 +186,9 @@ class Client(object):
             if 'success' in res and not res['success']:
                 raise KucoinAPIException(response)
             try:
-                if res['data']['data'][0]['status'] == 'fail' and res['data']['data'][0]['side'] == 'buy':
                 if res['data'][0]['status'] == 'fail' and res['data'][0]['side'] == 'buy':
                     res = res['data']
                     print(res)
-                    raise KucoinRequestException('Invalid Response: %s' % res['data'][0]['failMsg'])
                     raise KucoinRequestException('Invalid Response: %s' % res[0]['failMsg'])
             except (KeyError, TypeError):
                 pass
