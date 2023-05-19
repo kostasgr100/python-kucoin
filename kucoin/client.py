@@ -1506,7 +1506,7 @@ class Client(object):
         if trade_type:
             data['tradeType'] = trade_type
 
-        return self._get('fills', True, data=data)
+        return self._get('hf/fills', True, data=data)
 
     # Market Endpoints
 
