@@ -25,6 +25,7 @@ class Client(object):
 
     ACCOUNT_MAIN = 'main'
     ACCOUNT_TRADE = 'trade'
+    ACCOUNT_TRADE_HF = 'trade_hf'
 
     ORDER_LIMIT = 'limit'
     ORDER_MARKET = 'market'
@@ -115,6 +116,10 @@ class Client(object):
             if data:
                 query_string = self._get_params_for_sig(data)
                 endpoint = "{}?{}".format(path, query_string)
+        elif method == "delete":
+            if data:
+                query_string = self._get_params_for_sig(data)
+                endpoint = "{}?{}".format(path, query_string)
         elif data:
             data_json = compact_json_dict(data)
         sig_str = ("{}{}{}{}".format(nonce, method.upper(), endpoint, data_json)).encode('utf-8')
@@ -153,7 +158,11 @@ class Client(object):
             kwargs['params'] = kwargs['data']
             del kwargs['data']
 
-        if signed and method != 'get' and kwargs['data']:
+        if kwargs['data'] and method == 'delete':
+            kwargs['params'] = kwargs['data']
+            del kwargs['data']
+
+        if signed and method == 'post' and kwargs['data']:
             kwargs['data'] = compact_json_dict(kwargs['data'])
 
         response = getattr(self.session, method)(uri, **kwargs)
